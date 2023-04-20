@@ -1,4 +1,17 @@
-spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+#spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+
+#config Mysql Database
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/camunda_pizza?useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+camunda:
+  bpm:
+    database:
+      type: mysql
+    schema-update: true
 
 camunda.bpm.admin-user:
   id: demo

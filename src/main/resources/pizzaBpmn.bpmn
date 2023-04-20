@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1eoqxrv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="Process_1oooqwh" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Commande recue">
+      <bpmn:outgoing>Flow_0429xwr</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Save_cmd_serv" name="Enregistrer commande" camunda:delegateExpression="#{Save_cmd_serv}">
+      <bpmn:incoming>Flow_0429xwr</bpmn:incoming>
+      <bpmn:outgoing>Flow_15ha4ir</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="approuve_cmd" name="Approuver commande">
+      <bpmn:incoming>Flow_15ha4ir</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qseeuj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0yws1sd" name="Commande approuvé?">
+      <bpmn:incoming>Flow_1qseeuj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mw12fj</bpmn:outgoing>
+      <bpmn:outgoing>Flow_074junx</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0429xwr" sourceRef="StartEvent_1" targetRef="Save_cmd_serv" />
+    <bpmn:sequenceFlow id="Flow_15ha4ir" sourceRef="Save_cmd_serv" targetRef="approuve_cmd" />
+    <bpmn:endEvent id="Event_0kao9xa">
+      <bpmn:incoming>Flow_1h9pavw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1h9pavw" sourceRef="prepare_pizza" targetRef="Event_0kao9xa" />
+    <bpmn:sequenceFlow id="Flow_1qseeuj" sourceRef="approuve_cmd" targetRef="Gateway_0yws1sd" />
+    <bpmn:sequenceFlow id="Flow_1mw12fj" name="OUI" sourceRef="Gateway_0yws1sd" targetRef="prepare_pizza">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAccepted== true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Send_mail_reject_serv" name="envoyer maill de rejet" camunda:delegateExpression="#{Send_mail_reject_serv}">
+      <bpmn:incoming>Flow_074junx</bpmn:incoming>
+      <bpmn:outgoing>Flow_03vpr4v</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_074junx" name="NON" sourceRef="Gateway_0yws1sd" targetRef="Send_mail_reject_serv">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAccepted== false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0197do1">
+      <bpmn:incoming>Flow_03vpr4v</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_03vpr4v" sourceRef="Send_mail_reject_serv" targetRef="Event_0197do1" />
+    <bpmn:userTask id="prepare_pizza" name="Prepare pizza">
+      <bpmn:incoming>Flow_1mw12fj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1h9pavw</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1oooqwh">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="142" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qgyoa8_di" bpmnElement="Save_cmd_serv">
+        <dc:Bounds x="320" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0d1o0tq_di" bpmnElement="approuve_cmd">
+        <dc:Bounds x="510" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yws1sd_di" bpmnElement="Gateway_0yws1sd" isMarkerVisible="true">
+        <dc:Bounds x="715" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="711" y="62" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0kao9xa_di" bpmnElement="Event_0kao9xa">
+        <dc:Bounds x="1092" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pya681_di" bpmnElement="Send_mail_reject_serv">
+        <dc:Bounds x="870" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0197do1_di" bpmnElement="Event_0197do1">
+        <dc:Bounds x="1092" y="262" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1i8iv6g_di" bpmnElement="prepare_pizza">
+        <dc:Bounds x="900" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0429xwr_di" bpmnElement="Flow_0429xwr">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="320" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15ha4ir_di" bpmnElement="Flow_15ha4ir">
+        <di:waypoint x="420" y="117" />
+        <di:waypoint x="510" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1h9pavw_di" bpmnElement="Flow_1h9pavw">
+        <di:waypoint x="1000" y="117" />
+        <di:waypoint x="1031" y="117" />
+        <di:waypoint x="1031" y="130" />
+        <di:waypoint x="1092" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qseeuj_di" bpmnElement="Flow_1qseeuj">
+        <di:waypoint x="610" y="117" />
+        <di:waypoint x="715" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mw12fj_di" bpmnElement="Flow_1mw12fj">
+        <di:waypoint x="765" y="117" />
+        <di:waypoint x="900" y="117" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="823" y="99" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_074junx_di" bpmnElement="Flow_074junx">
+        <di:waypoint x="740" y="142" />
+        <di:waypoint x="740" y="310" />
+        <di:waypoint x="870" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="743" y="223" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03vpr4v_di" bpmnElement="Flow_03vpr4v">
+        <di:waypoint x="970" y="280" />
+        <di:waypoint x="1092" y="280" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
