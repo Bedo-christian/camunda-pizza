@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: API pour l'utilisateur
+  version: 1.0.0
+components:
+  schemas:
+    UtilisateurDto:
+      type: object
+      properties:
+        identifiant:
+          type: string
+          example: test@gmail.com
+        password:
+          type: string
+          example: 1234
+
+    UtilisateurResponse:
+      type: object
+      properties:
+        id_user:
+          type: integer
+        identifiant:
+          type: string
+        password:
+          type: string
+
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string

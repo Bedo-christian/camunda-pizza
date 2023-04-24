@@ -1,0 +1,171 @@
+openapi: 3.0.1
+info:
+  title: Pizza delicieux
+  description: Gestion des reservations des pizzas.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: dev
+tags:
+  - name: Pizza
+    description: gestion de pizza
+
+paths:
+  #endpoints pour l'affectation
+  /pizza:
+    post:
+      tags:
+        - Pizza
+      summary: Save Pizza by Admin
+      operationId: savePizza
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'pizza.yaml#/components/schemas/PizzaDto'
+      responses:
+        '201':
+          description: Ajout success
+          content:
+            application/json:
+              schema:
+                $ref: 'pizza.yaml#/components/schemas/PizzaResponse'
+        '500':
+          description: Erreur interne du serveur
+
+    get:
+      tags:
+        - Pizza
+      summary: Liste des toutes les Pizzas disponibles
+      operationId: getAllPizza
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'pizza.yaml#/components/schemas/PizzaResponse'
+        '500':
+          description: Erreur interne du serveur
+
+  /pizza/{pizza_id}:
+    get:
+      tags:
+        - Pizza
+      summary: Obtenir une pizza par ID
+      operationId: getPizzaById
+      parameters:
+        - name: pizza_id
+          in: path
+          description: ID du pizza à récupérer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succès - Ressource récupérée
+          content:
+            application/json:
+              schema:
+                $ref: 'pizza.yaml#/components/schemas/PizzaResponse'
+        '404':
+          description: Ressource non trouvée
+        '500':
+          description: Erreur interne du serveur
+
+    put:
+      tags:
+        - Pizza
+      summary: Mettre à jour la table Pizza
+      operationId: updatePizza
+      parameters:
+        - name: pizza_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'pizza.yaml#/components/schemas/PizzaDto'
+      responses:
+        '200':
+          description: Data mis à jour avec succès
+        '404':
+          description: data non trouvé
+        '500':
+          description: Erreur interne du serveur
+
+  /user:
+    post:
+      tags:
+        - Utilisateur
+      summary: enregistrer un utilisateur avec mot de passe by admin
+      operationId: saveUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'utilisateur.yaml#/components/schemas/UtilisateurDto'
+      responses:
+        '201':
+          description: Utilisateur ajouté avec success
+        '409':
+          description: login ou username existe déjà
+        '500':
+          description: Erreur interne du serveur
+  /user/authentification:
+    post:
+      tags:
+        - Authentification
+      summary: Obtenir un token pour s'authentifier
+      operationId: getToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorDetails'
+      responses:
+        '200':
+          description: authentification Ok
+          content:
+            application/json:
+              schema:
+                $ref: 'utilisateur.yaml#/components/schemas/TokenResponse'
+        '401':
+          description: Utilisateur non autorisé login/mot de pass incorrect
+        '500':
+          description: Erreur interne du serveur
+
+components:
+  schemas:
+    #DTO pour afficher les messages d'erreur
+    ErrorDetails:
+      type: object
+      properties:
+        code:
+          description: Application error code.
+          type: integer
+          nullable: false
+          example: 400
+        message:
+          description: A short, summary of the problem type.
+          type: string
+          nullable: false
+          example: 'size must be between 10 and 12.'
+        field:
+          description: The field that caused the error.
+          type: string
+          example: 'consumer.phone'
+        value:
+          description: The value of the field that caused the error.
+          type: object
+          example: null
+        location:
+          description: The location of the field that caused the error.
+          type: string
+          enum: [ 'BODY','PATH','QUERY','HEADER' ]
+          example: 'BODY'

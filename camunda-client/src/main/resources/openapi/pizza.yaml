@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: API pour PIZZA
+  version: 1.0.0
+components:
+  schemas:
+    PizzaDto:
+      type: object
+      properties:
+        nom:
+          type: string
+          example: test@gmail.com
+        type:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+    PizzaResponse:
+      type: object
+      properties:
+        id_pizza:
+          type: integer
+        nom:
+          type: string
+          example: test@gmail.com
+        type:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
