@@ -251,6 +251,101 @@ paths:
         '500':
           description: Erreur interne du serveur
 
+  #API POUR LE CLIENT
+  /clients:
+    post:
+      tags:
+        - Client
+      summary: Enregistrement pour le formulaire du clients
+      operationId: saveClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'client.yaml#/components/schemas/ClientDto'
+      responses:
+        '201':
+          description: Ajouté avec success
+          content:
+            application/json:
+              schema:
+                $ref: 'client.yaml#/components/schemas/ClientDto'
+        '500':
+          description: Erreur interne du serveur
+  /clients/{client_id}:
+    get:
+      tags:
+        - Client
+      summary: Obtenir un client par ID
+      operationId: getClientById
+      description: Récupère un client spécifique en fonction de son ID.
+      parameters:
+        - name: client_id
+          in: path
+          description: ID du client à récupérer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succès - Ressource récupérée
+          content:
+            application/json:
+              schema:
+                $ref: 'client.yaml#/components/schemas/ClientResponse'
+        '404':
+          description: Ressource non trouvée
+        '500':
+          description: Erreur interne du serveur
+
+    put:
+      tags:
+        - Client
+      operationId: updateClientById
+      summary: Mettre à jour la table client
+      parameters:
+        - name: client_id
+          in: path
+          description: ID du client à mettre à jour'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'client.yaml#/components/schemas/ClientDto'
+      responses:
+        '200':
+          description: Client mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: 'client.yaml#/components/schemas/ClientDto'
+        '404':
+          description: Client non trouvé
+        '500':
+          description: Erreur interne du serveur
+
+    delete:
+      tags:
+        - Client
+      operationId: deleteClientById
+      summary: Supprimer un client par ID
+      description: Supprime un exemple en utilisant son ID comme paramètre
+      parameters:
+        - name: client_id
+          in: path
+          description: ID du client à supprimer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Aucun contenu
+        '404':
+          description: client non trouvé
+
 components:
   schemas:
     #DTO pour afficher les messages d'erreur
