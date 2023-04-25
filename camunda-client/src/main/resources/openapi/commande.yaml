@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: API pour PIZZA
+  version: 1.0.0
+components:
+  schemas:
+    CommandeDto:
+      type: object
+      properties:
+        status:
+          type: string
+          example: LIVRE,EN COURS
+        client:
+          $ref: 'client.yaml#/components/schemas/ClientResponse'
+        pizza:
+          $ref: 'pizza.yaml#/components/schemas/PizzaResponse'
+    CommandeResponse:
+      type: object
+      properties:
+        id_commande:
+          type: integer
+        status:
+          type: string
+          example: LIVRE,EN COURS
+        client:
+          $ref: 'client.yaml#/components/schemas/ClientResponse'
+        pizza:
+          $ref: 'pizza.yaml#/components/schemas/PizzaResponse'

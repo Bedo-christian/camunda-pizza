@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: API pour PIZZA
+  version: 1.0.0
+components:
+  schemas:
+    ClientDto:
+      type: object
+      properties:
+        adresse:
+          type: string
+          example: 200 av pont scott
+        rue:
+          type: string
+        ville:
+          type: string
+        code_postal:
+          type: string
+        email:
+          type: string
+        nom_client:
+          type: string
+    ClientResponse:
+      type: object
+      properties:
+        id_client:
+          type: integer
+        adresse:
+          type: string
+          example: 200 av pont scott
+        rue:
+          type: string
+        ville:
+          type: string
+        code_postal:
+          type: string
+        email:
+          type: string
+        nom_client:
+          type: string
