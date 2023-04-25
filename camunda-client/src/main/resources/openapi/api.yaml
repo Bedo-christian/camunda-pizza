@@ -29,7 +29,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'pizza.yaml#/components/schemas/PizzaResponse'
+                $ref: 'pizza.yaml#/components/schemas/PizzaDto'
         '500':
           description: Erreur interne du serveur
 
@@ -137,6 +137,117 @@ paths:
                 $ref: 'utilisateur.yaml#/components/schemas/TokenResponse'
         '401':
           description: Utilisateur non autorisé login/mot de pass incorrect
+        '500':
+          description: Erreur interne du serveur
+
+  /commande:
+    post:
+      tags:
+        - Commande
+      summary: Creer commande
+      operationId: createCommande
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'commande.yaml#/components/schemas/CommandeDto'
+      responses:
+        '201':
+          description: Ajout success
+          content:
+            application/json:
+              schema:
+                $ref: 'commande.yaml#/components/schemas/CommandeDto'
+        '500':
+          description: Erreur interne du serveur
+
+    get:
+      tags:
+        - Commande
+      summary: Liste des toutes les Commandes
+      operationId: getAllOrder
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'commande.yaml#/components/schemas/CommandeResponse'
+        '500':
+          description: Erreur interne du serveur
+
+  /commande/{commande_id}:
+    get:
+      tags:
+        - Commande
+      summary: Details d'une commande
+      operationId: getDetailsCommandById
+      parameters:
+        - name: commande_id
+          in: path
+          description: ID du commande à recuperer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succès - details d'un commande récupérée
+          content:
+            application/json:
+              schema:
+                $ref: 'commande.yaml#/components/schemas/CommandeResponse'
+        '404':
+          description: Ressource non trouvée
+        '500':
+          description: Erreur interne du serveur
+
+    put:
+      tags:
+        - Commande
+      summary: Modification d'une commande par le client
+      operationId: updateClient
+      parameters:
+        - name: commande_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'commande.yaml#/components/schemas/CommandeDto'
+      responses:
+        '200':
+          description: Modification à jour avec succès
+        '404':
+          description: data non trouvé
+        '500':
+          description: Erreur interne du serveur
+  /commande/{status_command}:
+    get:
+      tags:
+        - Commande
+      summary: Obtenir une commande by status approuvé ou à traiter
+      operationId: getCommandesByStatus
+      parameters:
+        - name: status_command
+          in: path
+          description: ID du commande à recuperer
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'commande.yaml#/components/schemas/CommandeResponse'
         '500':
           description: Erreur interne du serveur
 
