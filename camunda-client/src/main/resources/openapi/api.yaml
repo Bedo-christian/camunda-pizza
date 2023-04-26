@@ -207,7 +207,7 @@ paths:
       tags:
         - Commande
       summary: Modification d'une commande par le client
-      operationId: updateClient
+      operationId: updateCommande
       parameters:
         - name: commande_id
           in: path
@@ -238,7 +238,7 @@ paths:
           description: ID du commande à recuperer
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: OK
@@ -270,6 +270,12 @@ paths:
             application/json:
               schema:
                 $ref: 'client.yaml#/components/schemas/ClientDto'
+        '400':
+          description: BAD REQUEST - erreur liés aux l'input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetails'
         '500':
           description: Erreur interne du serveur
   /clients/{client_id}:
