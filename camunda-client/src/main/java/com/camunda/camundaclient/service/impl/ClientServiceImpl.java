@@ -1,12 +1,12 @@
-package com.mandat.affecationf.service.impl;
+package com.camunda.camundaclient.service.impl;
 
-import com.mandat.affecationf.dao.ClientDao;
-import com.mandat.affecationf.entity.Client;
-import com.mandat.affecationf.exception.NotFoundException;
-import com.mandat.affecationf.mapper.ClientMapper;
-import com.mandat.affecationf.model.ClientDto;
-import com.mandat.affecationf.model.ClientResponse;
-import com.mandat.affecationf.service.ClientService;
+import com.camunda.camundaclient.dao.ClientDao;
+import com.camunda.camundaclient.entity.Client;
+import com.camunda.camundaclient.exception.NotFoundException;
+import com.camunda.camundaclient.mapper.ClientMapper;
+import com.camunda.camundaclient.model.ClientDto;
+import com.camunda.camundaclient.model.ClientResponse;
+import com.camunda.camundaclient.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,8 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientMapper clientMapper;
     private final ClientDao clientDao;
-    public ClientServiceImpl(ClientMapper clientMapper, ClientDao clientDao){
+
+    public ClientServiceImpl(ClientMapper clientMapper, ClientDao clientDao) {
         this.clientMapper = clientMapper;
         this.clientDao = clientDao;
     }
@@ -33,7 +34,7 @@ public class ClientServiceImpl implements ClientService {
         List<Client> clientList = clientDao.findAll();
         List<ClientResponse> repList = new ArrayList<>();
         for (Client client: clientList){
-            repList.add(clientMapper.EntityToClientDto(client));
+           repList.add(clientMapper.entityToDto(client));
         }
 
         return repList;
@@ -42,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto saveClient(ClientDto clientDto) {
         logger.info("Enregistrement client");
-        clientDao.save(clientMapper.dtoToClientEntity(clientDto));
+        clientDao.save(clientMapper.dtoToEntity(clientDto));
         return clientDto;
     }
 
@@ -64,7 +65,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientResponse getClientById(Integer clientId) {
         Optional<Client> client = clientDao.findById(clientId);
         if (client.isPresent()){
-            return clientMapper.EntityToClientDto(client.get());
+            return clientMapper.entityToDto(client.get());
         }else{
             throw new NotFoundException();
         }

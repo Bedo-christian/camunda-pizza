@@ -1,4 +1,4 @@
-package com.mandat.affecationf.exception;
+package com.camunda.camundaclient.exception;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException(){

@@ -1,6 +1,6 @@
-package com.mandat.affecationf.exception;
+package com.camunda.camundaclient.exception;
 
-import com.mandat.affecationf.model.ErrorDetails;
+import com.camunda.camundaclient.model.ErrorDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

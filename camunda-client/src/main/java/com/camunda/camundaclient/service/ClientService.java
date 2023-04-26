@@ -1,9 +1,7 @@
-package com.mandat.affecationf.service;
+package com.camunda.camundaclient.service;
 
-import com.mandat.affecationf.model.ClientDto;
-import com.mandat.affecationf.model.ClientResponse;
-import com.mandat.affecationf.model.EmployeReq;
-import com.mandat.affecationf.model.EmployesRep;
+import com.camunda.camundaclient.model.ClientDto;
+import com.camunda.camundaclient.model.ClientResponse;
 
 import java.util.List;
 
