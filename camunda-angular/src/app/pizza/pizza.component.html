@@ -1,0 +1,13 @@
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" [src]="urlImg" [alt]="altImg">
+  <div class="card-body">
+    <a href="#" class="btn btn-primary" (click)="onLike()" >J'aime</a>
+    <h5 class="card-title">{{titreArticle}}</h5>
+    <span *ngIf="dispo==true">disponible</span>
+    <h6 class="card-title">{{pricePizza}}$</h6>
+    <p class="card-text">Nombre de like : {{totalLike}}</p>
+
+    <input type="text" placeholder="Ecris ton commentaire" [(ngModel)]="comment">
+    <p>COMMENTAIRE : {{comment}}</p>
+  </div>
+</div>
