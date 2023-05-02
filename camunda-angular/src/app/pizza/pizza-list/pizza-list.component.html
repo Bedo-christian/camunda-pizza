@@ -1,0 +1,23 @@
+<hr>
+  <div class="container">
+    <ng-container *ngIf="(pizzas$ | async) as result" [ngSwitch]="result.dataState" >
+      <ng-container *ngSwitchCase="DataStateEnum.LOADED">
+        <div class="row">
+          <div class="col-lg-4 col-sm-6 ml-4" *ngFor="let pizza of result.data">
+            <div class="recipe-item">
+              <a href="#"><img src="https://via.placeholder.com/400x250" alt=""></a>
+              <div class="ri-text">
+                <div class="cat-name">{{pizza.type}}</div>
+                <a href="#">
+                  <h4>{{pizza.nom}}</h4>
+                </a>
+                <p>{{pizza.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </ng-container>
+  </div>
+

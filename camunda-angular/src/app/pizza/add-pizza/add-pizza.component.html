@@ -1,0 +1,42 @@
+<div class="container">
+  <form #pizzaForm = "ngForm">
+    <div class="form-group">
+      <label>Nom du Pizza</label>
+      <input type="text" class="form-control" id="nom" required maxlength="150"
+             [(ngModel)]="addPizzaform.nom" name="nom" #nom="ngModel">
+      <div *ngIf="nom.errors && isSubmitted" class="alert alert-danger validationError">
+        <div [hidden]="!nom.errors?.['required']">
+          Nom  obligatoire
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Type :</label>
+      <input type="text" class="form-control" id="type" required maxlength="50"
+             [(ngModel)]="addPizzaform.type" name="nom" #type="ngModel">
+      <div *ngIf="type.errors && isSubmitted" class="alert alert-danger validationError">
+        <div [hidden]="!type.errors?.['required']">
+          Type de pizza  obligatoire
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" id="description" required [(ngModel)]="addPizzaform.description" name="description"
+                #description="ngModel">></textarea>
+      <div *ngIf="description.errors && isSubmitted" class="alert alert-danger validationError">
+        <div [hidden]="!description.errors?.['required']">
+          Description du pizza obligatoire
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Image :</label>
+      <input type="text" class="form-control" id="image" required maxlength="50"
+             [(ngModel)]="addPizzaform.image" name="image">
+    </div>
+
+
+    <button class="btn btn-success" (click)="onSaveProduct(pizzaForm.form.valid)">Enregistrer</button>
+  </form>
+</div>
